@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<title>CREATIVE OS — المنطقة الإبداعية</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link href="https://fonts.googleapis.com/css2?family=Silkscreen:wght@400;700&family=Space+Mono:wght@400;700&family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#3b3558;--win:#f1ecf9;--bar:linear-gradient(#d3c8ee,#b7cdee);--lav:#b9a9dc;--blue:#bcd8ee;--pink:#f0c3da;--line:#cbbdea;--paper:#f8f5fc;color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#efeafc;--win:#34305a;--line:#6b5fa0;--paper:#2a2646;color-scheme:dark}}
+:root[data-theme="dark"]{--ink:#efeafc;--win:#34305a;--line:#6b5fa0;--paper:#2a2646;color-scheme:dark}
+html{height:100%;scroll-padding-top:env(safe-area-inset-top,0px)}
+body,#root{height:100%;margin:0}
+body{overflow:hidden;background:var(--paper);font-family:'Space Mono',monospace;color:var(--ink)}
+[dir=rtl] body,[dir=rtl] button{font-family:'Cairo',sans-serif}
+button{font-family:inherit}
+.wall{position:fixed;inset:-90px;background:repeating-conic-gradient(#bdb0e0 0 25%,#f7f3fc 0 50%) 0 0/120px 120px;filter:url(#wavy)}
+.fade{position:fixed;inset:0;background:linear-gradient(160deg,rgba(188,216,238,.35),rgba(240,195,218,.18) 60%,rgba(185,169,220,.25));pointer-events:none}
+.fl{position:absolute;animation:fl 7s ease-in-out infinite;pointer-events:none;filter:drop-shadow(0 14px 14px rgba(110,90,170,.28))}
+@keyframes fl{50%{transform:translateY(-16px) rotate(2.5deg)}}
+@media (prefers-reduced-motion:reduce){.fl{animation:none}}
+.px{font:700 28px/1.1 Silkscreen,monospace;color:var(--lav);text-shadow:2px 2px 0 var(--pink),-1px -1px 0 #fff;margin:0}
+[dir=rtl] .px{font-family:Cairo;font-weight:900}
+.ic{display:flex;flex-direction:column;align-items:center;gap:6px;width:96px;background:none;border:0;font:700 11px Silkscreen,monospace;color:#473f6c;text-shadow:0 1px 0 #fff;cursor:pointer;text-transform:uppercase;padding:4px}
+[dir=rtl] .ic{font-family:Cairo;font-size:13px;text-transform:none}
+.ic:hover svg,.ic:focus-visible svg{transform:translateY(-3px)}.ic svg{transition:transform .15s}
+.col{position:absolute;top:14px;bottom:70px;display:flex;flex-direction:column;justify-content:space-around}
+.win{position:absolute;background:var(--win);border:2px solid var(--line);border-radius:10px;box-shadow:0 0 0 2px var(--pink),7px 9px 0 rgba(110,90,170,.2);display:flex;flex-direction:column;max-height:calc(100% - 76px)}
+.bar{background:var(--bar);border-radius:8px 8px 0 0;padding:6px 8px;display:flex;align-items:center;gap:6px;cursor:grab;touch-action:none;user-select:none}
+.bar b{flex:1;font:700 12px Silkscreen,monospace;color:#473f6c}
+[dir=rtl] .bar b{font-family:Cairo;font-size:14px}
+.bt{width:22px;height:22px;border:2px solid #fff;background:var(--pink);color:#6b5fa0;font:700 12px/1 monospace;border-radius:4px;cursor:pointer;padding:0}
+.body{padding:16px;overflow:auto;position:relative}
+.task{position:absolute;left:0;right:0;bottom:0;height:54px;background:linear-gradient(#e6def7,#c4b7e6);border-top:3px solid var(--pink);display:flex;align-items:center;gap:8px;padding:0 12px;z-index:9000}
+.start,.tb,.btn{border:2px solid #fff;border-radius:8px;background:linear-gradient(#e2d6f8,#bfd2f0);color:#473f6c;font:700 13px Silkscreen,monospace;padding:8px 14px;cursor:pointer;box-shadow:2px 3px 0 rgba(110,90,170,.3)}
+[dir=rtl] .start,[dir=rtl] .tb,[dir=rtl] .btn{font-family:Cairo;font-size:14px}
+.tb{font-size:11px;padding:6px 10px;max-width:140px;overflow:hidden;white-space:nowrap}.tb.on{background:#fff}
+.menu{position:absolute;bottom:56px;left:12px;background:var(--win);border:2px solid var(--line);border-radius:10px;padding:6px;z-index:9100;display:grid;gap:2px;min-width:190px}
+.menu button{display:flex;gap:8px;align-items:center;background:none;border:0;padding:6px 8px;color:var(--ink);cursor:pointer;border-radius:6px;font-size:13px;text-align:start}
+.menu button:hover{background:var(--blue)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px}
+.tile{border:0;padding:0;background:#fff;border-radius:10px;overflow:hidden;cursor:pointer;text-align:start;color:#473f6c;box-shadow:0 0 0 2px var(--line)}
+.tile img,.tile video{display:block;width:100%;aspect-ratio:4/3;object-fit:cover}
+.tile span{display:block;padding:8px 10px;font-size:12px;font-weight:700}
+.chip{display:inline-block;margin:3px;padding:6px 12px;border-radius:99px;background:var(--blue);color:#33406a;font-size:13px}
+.bar2{height:12px;border-radius:99px;background:#fff;overflow:hidden;box-shadow:0 0 0 2px var(--line)}.bar2 i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--lav))}
+p{line-height:1.6;margin:.5em 0}
+.view{position:absolute;inset:0;background:var(--win);z-index:3;padding:14px;display:flex;flex-direction:column;gap:10px;overflow:auto}
+.view img,.view video{width:100%;max-height:70%;object-fit:contain;border-radius:10px;background:#fff}
+.m{position:fixed;inset:0;overflow:auto;padding:calc(18px + env(safe-area-inset-top,0px)) 16px 120px}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;position:relative;z-index:2}
+.sheet{position:fixed;inset:0;z-index:50;background:var(--win);overflow:auto;padding:calc(12px + env(safe-area-inset-top,0px)) 16px 110px}
+.nav{position:fixed;left:0;right:0;bottom:0;z-index:60;display:flex;justify-content:space-around;padding:8px 8px calc(8px + env(safe-area-inset-bottom,0px));background:linear-gradient(#e6def7,#c4b7e6);border-top:3px solid var(--pink)}
+.nav button{background:none;border:0;color:#473f6c;font:700 10px Silkscreen,monospace;display:flex;flex-direction:column;align-items:center;gap:3px}
+[dir=rtl] .nav button{font-family:Cairo;font-size:12px}
+.mview .grid{grid-template-columns:1fr}
+.soc{display:flex;align-items:center;gap:10px;padding:8px;border-radius:10px;background:#fff;color:#473f6c;text-decoration:none;box-shadow:0 0 0 2px var(--line);font-size:13px;word-break:break-all;transition:transform .15s}.soc:hover{transform:translateY(-2px)}
+.adm{position:fixed;inset:0;z-index:20000;background:var(--paper);overflow:auto;padding:calc(14px + env(safe-area-inset-top,0px)) 14px 40px}
+.adm .card{max-width:760px;margin:0 auto;background:var(--win);border:2px solid var(--line);border-radius:12px;padding:16px;display:grid;gap:12px}
+.in{width:100%;box-sizing:border-box;padding:9px 10px;border:2px solid var(--line);border-radius:8px;background:#fff;color:#33304f;font:inherit}
+.fld{display:grid;gap:5px}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pj{display:grid;grid-template-columns:90px 1fr;gap:10px;padding:10px;border-radius:10px;background:var(--paper);box-shadow:0 0 0 2px var(--line)}.pj img,.pj video{width:90px;height:68px;object-fit:cover;border-radius:6px}
+</style></head>
+<body>
+<svg width="0" height="0" style="position:absolute"><filter id="wavy"><feTurbulence type="fractalNoise" baseFrequency=".006 .009" numOctaves="2" seed="4"/><feDisplacementMap in="SourceGraphic" scale="90"/></filter></svg>
+<div id="root"></div>
+<script type="text/plain" id="src">
+const { useState, useEffect, useRef, useId } = React;
+type Lang = 'en' | 'ar';
+type Bi = { en: string; ar: string };
+const bi = (s: string): Bi => { const [en, ar] = s.split('|'); return { en, ar: ar || en }; };
+
+/* ============ EDIT YOUR CONTENT HERE ============ */
+const ID = ['about','branding','advertising','social','motion','lab','skills','software','cv','contact'];
+const LBL: Record<string, Bi> = {
+  about: bi('About|عنّي'), branding: bi('Branding|الهوية'), advertising: bi('Advertising|الإعلان'),
+  social: bi('Social Media|السوشيال'), motion: bi('Motion & Film|الموشن'), lab: bi('Creative Lab|المختبر'),
+  skills: bi('Skills|المهارات'), software: bi('Software|البرامج'), cv: bi('CV|السيرة'), contact: bi('Contact|تواصل')
+};
+type Item = { t: Bi; img?: string; video?: string };   // img: image URL / data URI · video: mp4 URL
+const P = (a: string[], o: number): Item[] => a.map(x => ({ t: bi(x) }));
+const C = {
+  about: bi('Designer shaping clean, memorable visuals for brands.|مصممة تصنع هويات بصرية نظيفة لا تُنسى.'),
+  cvFile: '', name: bi('Mia|ميا'), photo: '', phone: '',
+  cvUrl: { en: '', ar: '' } as Record<string, string>,
+  social: { instagram: '', behance: '', linkedin: '', whatsapp: '', email: 'hello@example.com' } as Record<string, string>,
+  work: {
+    branding: P(['Lumi Studio|استوديو لومي','Nour Café|مقهى نور','Pastel Co.|باستل','Sahab|سحاب'], 0),
+    advertising: P(['Cloud Campaign|حملة السحاب','Moon Billboard|لوحة القمر','Print Series|سلسلة مطبوعة'], 3),
+    social: P(['Dream Feed|خلاصة الأحلام','Story Pack|حزمة ستوري','Reels Covers|أغلفة ريلز','Carousel|كاروسيل'], 6),
+    motion: P(['Title Sequence|تتر','Brand Reel|ريل العلامة','Short Film|فيلم قصير'], 9),
+    lab: P(['3D Clouds|سحب ثلاثية','Type Play|لعب بالخط','Gradients|تدرجات','Pixel Pets|حيوانات بكسل'], 12)
+  } as Record<string, Item[]>,
+  skills: [['Brand Thinking|التفكير البصري',92],['Concept Development|تطوير الأفكار',88],['Motion|الموشن',80],['Typography|الخطوط',90],['Collaboration|العمل الجماعي',85]] as [string, number][],
+  software: ['Photoshop','Illustrator','Figma','After Effects','Procreate','Blender','Premiere','Canva'],
+  cv: [['2024–','Senior Designer — Studio X|مصممة أولى — ستوديو إكس'],['2021–24','Art Director — Moon Agency|مديرة فنية — وكالة القمر'],['2018–21','Graphic Designer — Freelance|مصممة جرافيك — مستقلة'],['2018','BA Visual Communication|بكالوريوس اتصال بصري']] as [string, string][],
+  contact: [['Email','hello@example.com'],['Instagram','@creative.district'],['Behance','behance.net/yourname']]
+};
+/* ================================================= */
+
+const PAL = ['#bcd8ee','#b9a9dc','#f0c3da','#e6def7','#cfe6f0','#d9c7f0'];
+const art = (n: number) => { const c = (i: number) => PAL[(n + i) % 6];
+  return 'data:image/svg+xml;utf8,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 450"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop stop-color="${c(0)}"/><stop offset="1" stop-color="${c(2)}"/></linearGradient><radialGradient id="r" cx=".35" cy=".3"><stop stop-color="#fff"/><stop offset=".6" stop-color="${c(3)}"/><stop offset="1" stop-color="${c(1)}"/></radialGradient></defs><rect width="600" height="450" fill="url(#g)"/><circle cx="${180 + (n * 37) % 240}" cy="230" r="120" fill="url(#r)"/><circle cx="${330 + (n * 53) % 150}" cy="200" r="90" fill="url(#r)" opacity=".9"/><circle cx="300" cy="310" r="70" fill="url(#r)" opacity=".85"/></svg>`); };
+
+/* ---------- 3D inflated pearlescent cloud ---------- */
+function Star({ x, y, s = 1 }: { x: number; y: number; s?: number }) {
+  return <g transform={`translate(${x} ${y}) scale(${s})`}><path d="M0-15C2-5 5-2 15 0 5 2 2 5 0 15-2 5-5 2-15 0-5-2-2-5 0-15Z" fill="url(#st)" stroke="#fff" strokeOpacity=".7" strokeWidth="1"/><path d="M-1-9C0-5 1-4 3-3" stroke="#fff" strokeWidth="1.6" fill="none" opacity=".9"/></g>;
+}
+function Cloud({ s = 200, cls = '', style = {}, stars = true, d = 0 }: { s?: number; cls?: string; style?: any; stars?: boolean; d?: number }) {
+  const u = useId().replace(/:/g, '');
+  const B: [number, number, number][] = [[100, 56, 48],[50, 90, 40],[150, 88, 38],[98, 98, 46],[72, 102, 34],[128, 104, 32]];
+  return <svg className={'fl ' + cls} width={s} height={s * .72} viewBox="0 0 200 144" style={{ animationDelay: d + 's', ...style }}>
+    <defs>
+      <radialGradient id={'b' + u} cx=".36" cy=".28" r=".85"><stop offset="0" stopColor="#fff"/><stop offset=".38" stopColor="#ece8fb"/><stop offset=".72" stopColor="#bccdf0"/><stop offset="1" stopColor="#c7b3e8"/></radialGradient>
+      <linearGradient id={'i' + u} x1="0" y1="0" x2="1" y2="1"><stop stopColor="#f6c6e0"/><stop offset=".45" stopColor="#bfe3f2"/><stop offset="1" stopColor="#c3b0ec"/></linearGradient>
+      <radialGradient id="st"><stop stopColor="#fff"/><stop offset=".5" stopColor="#e4d3f7"/><stop offset="1" stopColor="#f0a9cf"/></radialGradient>
+    </defs>
+    {B.map(([x, y, r], i) => <g key={i}>
+      <circle cx={x} cy={y} r={r} fill={`url(#b${u})`}/>
+      <circle cx={x} cy={y} r={r - 1} fill="none" stroke={`url(#i${u})`} strokeWidth="3" opacity=".5"/>
+      <ellipse cx={x - r * .32} cy={y - r * .42} rx={r * .2} ry={r * .1} fill="#fff" opacity=".95" transform={`rotate(-30 ${x - r * .32} ${y - r * .42})`}/>
+      <circle cx={x + r * .45} cy={y + r * .5} r={r * .07} fill="#fff" opacity=".6"/>
+    </g>)}
+    {stars && <><Star x={32 + d * 4} y={48} s={.9}/><Star x={168} y={62} s={1.2}/><Star x={118} y={14} s={.7}/></>}
+  </svg>;
+}
+
+/* ---------- pixel-art icons ---------- */
+const PX: Record<string, string[]> = {
+  about: ['aaaaaaaa','abbbbbba','acccccba','abbbbbba','acccccba','abbbbbba','acccdcba','aaaaaaaa'],
+  branding: ['...aa...','..abba..','.abccba.','abccddba','.abccba.','..abba..','...aa...','........'],
+  advertising: ['......aa','.....abb','aaaaabbb','abeebbbb','abeebbbb','aaaaabbb','..ad.abb','..aa..aa'],
+  social: ['.aa..aa.','adda.add','addddddd','addddddd','.addddd.','..addd..','...aa...','........'],
+  motion: ['aaaaaaaa','abbbbbba','abcabbba','abccabba','abcabbba','abbbbbba','aaaaaaaa','..aaaa..'],
+  lab: ['..aaaa..','...ab...','...ab...','..abba..','.aeeeea.','aeddeeea','abbbbbba','.aaaaaa.'],
+  skills: ['aaaa....','abbba...','abbbaaaa','abcccccb','abccccca','abccccca','abbbbbba','aaaaaaaa'],
+  software: ['aaaaaaaa','abeeeeba','abeceeba','abeeeeba','aaaaaaaa','..a..a..','.aaaaaa.','........'],
+  cv: ['aaaaaaaa','abccccba','abbbbbba','abcddcba','abbbbbba','abccccba','abbbbbba','aaaaaaaa'],
+  contact: ['aaaaaaaa','aabbbbaa','abaabbaa','abbaabba','abbbbbba','abbbbbba','aaaaaaaa','........']
+};
+const COL: Record<string, string> = { a: '#6b5fa0', b: '#fbf8ff', c: '#b9a9dc', d: '#f0a9cf', e: '#a9cdea' };
+function Icon({ id, size = 56 }: { id: string; size?: number }) {
+  return <svg width={size} height={size} viewBox="0 0 32 32" style={{ overflow: 'visible', filter: 'drop-shadow(0 3px 2px rgba(80,60,150,.25))' }} dangerouslySetInnerHTML={{ __html: ISO[id] || '' }}/>;
+}
+
+/* ---------- section content ---------- */
+function Gallery({ id, lang }: { id: string; lang: Lang }) {
+  const [sel, setSel] = useState<number | null>(null);
+  const items = C.work[id] || [];
+  const m = (it: Item, i: number) => it.img || art(i + id.length * 2);
+  return <>
+    <div className="grid">{items.map((it, i) => <button key={i} className="tile" onClick={() => setSel(i)}>
+      {it.video ? <video src={it.video} muted playsInline preload="metadata"/> : <img src={m(it, i)} alt={it.t[lang]}/>}
+      <span>{it.t[lang]}</span></button>)}</div>
+    {sel !== null && <div className="view">
+      <button className="btn" style={{ alignSelf: 'flex-start' }} onClick={() => setSel(null)}>{lang === 'en' ? '← Back' : 'رجوع →'}</button>
+      {items[sel].video ? <video src={items[sel].video} controls autoPlay playsInline/> : <img src={m(items[sel], sel)} alt=""/>}
+      <b>{items[sel].t[lang]}</b>
+      <div style={{ display: 'flex', gap: 8 }}>
+        <button className="btn" onClick={() => setSel((sel + items.length - 1) % items.length)}>‹</button>
+        <button className="btn" onClick={() => setSel((sel + 1) % items.length)}>›</button></div>
+    </div>}
+  </>;
+}
+function cvText(lang: Lang) { return 'CREATIVE OS — CV\n\n' + C.cv.map(([y, t]) => y + '  ' + bi(t)[lang]).join('\n') + '\n\n' + C.contact.map(([k, v]) => k + ': ' + v).join('\n'); }
+function Body({ id, lang }: { id: string; lang: Lang }) {
+  if (C.work[id]) return <Gallery id={id} lang={lang}/>;
+  if (id === 'about') return <><div style={{ display: 'flex', gap: 14, alignItems: 'center' }}>{C.photo && <img src={C.photo} alt="" style={{ width: 92, height: 92, borderRadius: '50%', objectFit: 'cover', boxShadow: '0 0 0 3px #fff,0 0 0 5px var(--lav)' }}/>}<h2 className="px" style={{ fontSize: 22 }}>{C.name[lang]}</h2></div><p style={{ fontSize: 16 }}>{C.about[lang]}</p><div style={{ display: 'flex', justifyContent: 'center' }}><Cloud s={200} cls="" style={{ position: 'relative' }}/></div></>;
+  if (id === 'skills') return <div style={{ display: 'grid', gap: 14 }}>{C.skills.map(([n, v]) => <div key={n}><div style={{ fontSize: 13, marginBottom: 4 }}>{bi(n)[lang]}</div><div className="bar2"><i style={{ width: v + '%' }}/></div></div>)}</div>;
+  if (id === 'software') return <div>{C.software.map(s => <span className="chip" key={s}>{s}</span>)}</div>;
+  if (id === 'cv') {
+    const dl = () => { const u = C.cvUrl[lang] || C.cvFile; if (u) { window.open(u, '_blank'); return; } const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([cvText(lang)], { type: 'text/plain;charset=utf-8' })); a.download = 'CV.txt'; a.click(); };
+    return <><div style={{ display: 'grid', gap: 10 }}>{C.cv.map(([y, t]) => <div key={y} style={{ display: 'flex', gap: 12 }}><b style={{ minWidth: 60, color: 'var(--lav)' }}>{y}</b><span>{bi(t)[lang]}</span></div>)}</div><p><button className="btn" onClick={dl}>{lang === 'en' ? 'Download CV' : 'تحميل السيرة'}</button></p></>;
+  }
+  const ks = ['instagram', 'behance', 'linkedin', 'whatsapp', 'email'].filter(k => C.social[k]);
+  return <div style={{ display: 'grid', gap: 12 }}><div className="grid" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(180px,1fr))' }}>{ks.map(k => <a key={k} className="soc" href={href(k, C.social[k])} target="_blank" rel="noopener"><SocIcon k={k} size={46}/><span dir="ltr" style={{ textTransform: 'capitalize' }}>{k === 'email' ? C.social[k] : k}</span></a>)}</div>{C.phone && <div dir="ltr" style={{ textAlign: lang === 'ar' ? 'right' : 'left' }}>{C.phone}</div>}{!ks.length && <p>—</p>}</div>;
+}
+const HERO = <><h1 className="px" style={{ fontSize: 'clamp(22px,3.2vw,36px)' }}>WELCOME TO MY CREATIVE DISTRICT.</h1>
+  <h2 className="px" dir="rtl" style={{ fontFamily: 'Cairo', fontSize: 'clamp(20px,2.6vw,30px)', marginTop: 14 }}>مرحبًا بك في منطقتي الإبداعية.</h2></>;
+
+/* ---------- desktop ---------- */
+type W = { id: string; x: number; y: number; z: number; min: boolean };
+function Win({ w, title, cloud, onFocus, onMin, onClose, onMove, children, width }: any) {
+  const d = useRef<any>(null);
+  return <div className="win" onPointerDown={onFocus} style={{ left: w.x, top: w.y, zIndex: w.z, width, display: w.min ? 'none' : 'flex' }}>
+    <div className="bar" onPointerDown={e => { if ((e.target as HTMLElement).closest('button')) return; d.current = { dx: e.clientX - w.x, dy: e.clientY - w.y }; (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId); }}
+      onPointerMove={e => d.current && onMove(Math.max(0, e.clientX - d.current.dx), Math.max(0, e.clientY - d.current.dy))} onPointerUp={() => (d.current = null)}>
+      <b>{title}</b><button className="bt" aria-label="minimize" onClick={onMin}>_</button><button className="bt" aria-label="close" onClick={onClose}>×</button></div>
+    <div className="body">{children}</div>
+    {cloud && <Cloud s={110} d={1} style={{ right: -34, top: -52, zIndex: 5 }}/>}
+  </div>;
+}
+function Desktop({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+  const z = useRef(10);
+  const [ws, setWs] = useState<W[]>([{ id: 'hero', x: 170, y: 50, z: 10, min: false }]);
+  const [menu, setMenu] = useState(false);
+  const [t, setT] = useState(new Date());
+  useEffect(() => { const i = setInterval(() => setT(new Date()), 1000); return () => clearInterval(i); }, []);
+  const open = (id: string) => { setMenu(false); setWs(p => { const n = ++z.current; const e = p.find(w => w.id === id); if (e) return p.map(w => w.id === id ? { ...w, z: n, min: false } : w); const k = p.length; return [...p, { id, x: 210 + k * 34, y: 70 + k * 28, z: n, min: false }]; }); };
+  const up = (id: string, f: Partial<W>) => setWs(p => p.map(w => w.id === id ? { ...w, ...f } : w));
+  const foc = (id: string) => up(id, { z: ++z.current });
+  const name = (id: string) => id === 'hero' ? 'WELCOME.EXE' : LBL[id][lang];
+  const col = (ids: string[], side: 'left' | 'right') => <div className="col" style={{ [side]: 10 } as any}>{ids.map(i => <button key={i} className="ic" onClick={() => open(i)}><Icon id={i}/>{LBL[i][lang]}</button>)}</div>;
+  return <>
+    <div className="wall"/><div className="fade"/>
+    <Cloud s={230} style={{ left: '22%', bottom: 90 }}/><Cloud s={170} d={2} style={{ right: '21%', top: 40 }}/><Cloud s={120} d={4} style={{ left: '12%', top: '30%' }}/>
+    {col(ID.slice(0, 5), 'left')}{col(ID.slice(5), 'right')}
+    {ws.map(w => <Win key={w.id} w={w} title={name(w.id)} cloud={w.id === 'hero' || w.id === 'about'} width={w.id === 'hero' ? 'min(560px,50vw)' : 'min(520px,52vw)'}
+      onFocus={() => foc(w.id)} onMin={() => up(w.id, { min: true })} onClose={() => setWs(p => p.filter(x => x.id !== w.id))} onMove={(x: number, y: number) => up(w.id, { x, y })}>
+      {w.id === 'hero' ? <>{HERO}<p style={{ marginTop: 18 }}><button className="btn" onClick={() => open('branding')}>{lang === 'en' ? 'Enter the work' : 'ادخل الأعمال'}</button></p></> : <Body id={w.id} lang={lang}/>}
+    </Win>)}
+    {menu && <div className="menu">{ID.map(i => <button key={i} onClick={() => open(i)}><Icon id={i} size={22}/>{LBL[i][lang]}</button>)}</div>}
+    <div className="task">
+      <button className="start" onClick={() => setMenu(m => !m)}>START</button>
+      <div style={{ display: 'flex', gap: 6, flex: 1, overflow: 'auto' }}>{ws.map(w => <button key={w.id} className={'tb' + (w.min ? '' : ' on')} onClick={() => w.min ? open(w.id) : up(w.id, { min: true })}>{name(w.id)}</button>)}</div>
+      <button className="tb" onClick={() => setLang(lang === 'en' ? 'ar' : 'en')}>{lang === 'en' ? 'عربي' : 'EN'}</button>
+      <span style={{ fontSize: 13, fontWeight: 700 }} dir="ltr">{t.toLocaleTimeString('en-GB')}</span>
+    </div>
+  </>;
+}
+
+/* ---------- mobile ---------- */
+function Mobile({ lang, setLang }: { lang: Lang; setLang: (l: Lang) => void }) {
+  const [cur, setCur] = useState<string | null>(null);
+  const [t, setT] = useState(new Date());
+  useEffect(() => { const i = setInterval(() => setT(new Date()), 1000); return () => clearInterval(i); }, []);
+  return <>
+    <div className="wall"/><div className="fade"/>
+    <Cloud s={150} style={{ right: -20, top: 60 }}/><Cloud s={120} d={2} style={{ left: -16, top: '48%' }}/><Cloud s={170} d={4} style={{ right: 0, bottom: 120 }}/>
+    <div className="m">
+      <div style={{ textAlign: 'center', fontWeight: 700, fontSize: 22 }} dir="ltr">{t.toLocaleTimeString('en-GB')}</div>
+      <div style={{ margin: '18px 0 22px' }}>{HERO}</div>
+      <div className="mg">{ID.map(i => <button key={i} className="ic" style={{ width: 'auto' }} onClick={() => setCur(i)}><Icon id={i} size={62}/>{LBL[i][lang]}</button>)}</div>
+    </div>
+    {cur && <div className="sheet mview"><div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14 }}>
+      <button className="btn" onClick={() => setCur(null)}>{lang === 'en' ? 'BACK' : 'رجوع'}</button><h2 className="px" style={{ fontSize: 22 }}>{LBL[cur][lang]}</h2></div>
+      <Body id={cur} lang={lang}/></div>}
+    <nav className="nav">
+      {[['about', 'about'], ['branding', 'branding'], ['lab', 'lab'], ['contact', 'contact']].map(([i]) => <button key={i} onClick={() => setCur(i)}><Icon id={i} size={26}/>{LBL[i][lang]}</button>)}
+      <button onClick={() => { setCur(null); setLang(lang === 'en' ? 'ar' : 'en'); }}><b style={{ fontSize: 17, lineHeight: '26px' }}>{lang === 'en' ? 'ع' : 'EN'}</b>{lang === 'en' ? 'AR' : 'LANG'}</button>
+    </nav>
+  </>;
+}
+
+/* ---------- 32-bit isometric pixel icons ---------- */
+const O = '#6b5fa0', W = '#f6f2fd', L = '#d3c8f0', R = '#aa9cda', K = '#f0a9cf', B = '#a9cdea', Y = '#f7e7a0';
+const pl = (p: string, f: string) => `<polygon points="${p}" fill="${f}" stroke="${O}" stroke-width=".8" stroke-linejoin="round"/>`;
+const bx = (x: number, y: number, a: number, h: number, t = W, l = L, r = R) => pl(`${x - a},${y + a / 2} ${x},${y + a} ${x},${y + a + h} ${x - a},${y + a / 2 + h}`, l) + pl(`${x},${y + a} ${x + a},${y + a / 2} ${x + a},${y + a / 2 + h} ${x},${y + a + h}`, r) + pl(`${x},${y} ${x + a},${y + a / 2} ${x},${y + a} ${x - a},${y + a / 2}`, t);
+const dt = (x: number, y: number, w = 2, h = 2, f = K) => `<rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${f}"/>`;
+const sp = (x: number, y: number) => `<path d="M${x} ${y - 2.5}v5M${x - 2.5} ${y}h5" stroke="#fff" stroke-width="1"/>`;
+const ln = (d: string, c = R) => `<path d="${d}" stroke="${c}" stroke-width="1.2" fill="none"/>`;
+const ISO: Record<string, string> = {
+  about: bx(16, 6, 11, 6) + ln('M9 12l9 4.5M12 10.5l9 4.5M15 9l8 4') + dt(18, 11, 3, 2) + dt(11, 6, 2, 3, O) + dt(8, 8, 2, 3, O) + dt(5, 10, 2, 3, O) + sp(27, 6),
+  branding: bx(16, 6, 11, 6) + dt(9, 13, 3, 3) + dt(14, 15, 3, 3, B) + dt(19, 12, 3, 3, Y) + dt(14, 10, 3, 2, '#c3b0ec') + sp(5, 6),
+  advertising: pl('4,15 19,8 19,23 4,19', W) + pl('19,8 25,11 25,20 19,23', R) + dt(6, 15, 11, 2, K) + pl('8,19 12,21 11,27 8,26', L) + ln('M27 12q3 4 0 8M29.5 9.5q5 6.5 0 13', O) + sp(26, 5),
+  social: `<path d="M16 28L5 16C2 11 7 5 12 7q3 1 4 4q1-3 4-4c5-2 10 4 7 9z" transform="translate(1.5 2)" fill="${R}"/><path d="M16 28L5 16C2 11 7 5 12 7q3 1 4 4q1-3 4-4c5-2 10 4 7 9z" fill="${K}" stroke="${O}" stroke-width=".9"/><path d="M16 28L27 16c3-5-2-11-7-9q-3 1-4 4z" fill="#d98bb8" opacity=".55"/>` + dt(8, 9, 3, 2, '#fff') + dt(8, 12, 1, 1, '#fff') + sp(27, 5),
+  motion: bx(16, 9, 11, 8) + ln('M7 13l5-3M12 16l5-3M17 19l5-3', O).replace('1.2', '2.4') + `<path d="M17 23l6 3-6 3z" fill="${K}" stroke="${O}" stroke-width=".7"/>` + sp(27, 5),
+  lab: `<path d="M12 3h8v2h-1v8l7 12q1.5 4-2 4H8q-3.500 0-2-4l7-12V5h-1z" fill="${W}" stroke="${O}" stroke-width=".9"/><path d="M9.500 21h13l3.500 6q1 2-1 2H7q-2 0-1-2z" fill="${B}"/><path d="M20 5v8l6 11" stroke="${R}" stroke-width="1.5" fill="none"/>` + dt(13, 23, 2, 2, '#fff') + dt(18, 26, 2, 2, K) + sp(5, 6) + sp(27, 8),
+  skills: bx(15, 5, 11, 8, '#c3b0ec', '#a99bd8', '#8e80c8') + bx(17, 9, 11, 7) + ln('M8 18l9 4.500', O) + dt(21, 17, 3, 2, K) + sp(5, 4),
+  software: bx(16, 4, 10, 11) + pl('18,15 24,12 24,18 18,21', B) + dt(19, 16, 2, 1, '#fff') + dt(11, 23, 2, 1, O) + bx(16, 24, 6, 2) + sp(27, 6),
+  cv: bx(16, 14, 11, 3) + bx(16, 10, 11, 3) + bx(16, 6, 11, 3) + dt(13, 8, 4, 2) + ln('M9 11l7 3.500M13 9.500l7 3.500') + dt(21, 9, 2, 1, B) + sp(27, 5),
+  contact: bx(16, 9, 12, 5) + ln('M5 15l11 3 11-3M16 9v6', O) + `<circle cx="16" cy="17" r="2.200" fill="${K}" stroke="${O}" stroke-width=".7"/>` + dt(22, 17, 3, 2, Y) + sp(5, 6)
+};
+const tile = (c: string, g: string) => `<rect x="4" y="6" width="25" height="25" rx="6" fill="${O}"/><rect x="3" y="3" width="25" height="25" rx="6" fill="${c}" stroke="${O}"/><rect x="3.500" y="16" width="24" height="11.500" rx="5.500" fill="${O}" opacity=".14"/><rect x="6" y="4.500" width="19" height="3.500" rx="1.700" fill="#fff" opacity=".45"/>${g}`;
+const tx = (t: string, s = 11) => `<text x="15.500" y="20" text-anchor="middle" font-family="Silkscreen,monospace" font-size="${s}" font-weight="700" fill="#fff" stroke="${O}" stroke-width=".5">${t}</text>`;
+const ST = 'fill="none" stroke="#fff" stroke-width="1.8"';
+const SOC: Record<string, string> = {
+  instagram: tile(K, `<rect x="8" y="8" width="15" height="15" rx="4.500" ${ST}/><circle cx="15.500" cy="15.500" r="3.500" ${ST}/><rect x="19.500" y="10.500" width="1.800" height="1.800" fill="#fff"/>`),
+  behance: tile(B, tx('Bē', 12)),
+  linkedin: tile('#8fb3e8', tx('in', 13)),
+  whatsapp: tile('#a8dcc0', `<path d="M15.500 7a8.500 8.500 0 00-7.300 12.800L7.500 24l4.300-1.100A8.500 8.500 0 1015.500 7z" ${ST}/><path d="M12.500 12c0 3 2.500 5.500 5.500 5.500l1.200-1.500-2-1-.8.800c-.8-.4-1.600-1.200-2-2l.8-.8-1-2z" fill="#fff"/>`),
+  email: tile('#c3b0ec', `<rect x="8" y="9.500" width="15" height="12" rx="1.500" ${ST}/><path d="M8.500 10.500l7 6 7-6" ${ST}/>`)
+};
+const SocIcon = ({ k, size = 40 }: { k: string; size?: number }) => <svg width={size} height={size} viewBox="0 0 32 32" style={{ flex: 'none' }} dangerouslySetInnerHTML={{ __html: SOC[k] }}/>;
+const href = (k: string, v: string) => k === 'email' ? 'mailto:' + v : k === 'whatsapp' ? 'https://wa.me/' + v.replace(/\D/g, '') : v;
+
+/* ---------- storage: Supabase (live) or this browser (demo) ---------- */
+const SB = { url: 'https://iarvqwzqzhprfurahqlm.supabase.co', key: 'sb_publishable_TlHACpysuNYjsTHPIlD2lQ_HhC5b3vx' };   // ← paste your Supabase Project URL + anon key here (see supabase-setup.sql)
+const sb: any = SB.url && (window as any).supabase ? (window as any).supabase.createClient(SB.url, SB.key) : null;
+const KEYS = ['name', 'about', 'photo', 'cvUrl', 'social', 'phone', 'work'];
+const snap = () => JSON.parse(JSON.stringify(Object.fromEntries(KEYS.map(k => [k, (C as any)[k]]))));
+const apply = (d: any) => { if (d) KEYS.forEach(k => d[k] !== undefined && ((C as any)[k] = d[k])); };
+async function load() { try { if (sb) { const r = await sb.from('site_content').select('data').eq('id', 1).maybeSingle(); apply(r.data && r.data.data); } else apply(JSON.parse(localStorage.getItem('cos') || 'null')); } catch (e) {} }
+async function save(d: any) { if (sb) { const r = await sb.from('site_content').upsert({ id: 1, data: d, updated_at: new Date().toISOString() }); if (r.error) throw r.error; } else localStorage.setItem('cos', JSON.stringify(d)); apply(d); }
+const readURL = (f: File) => new Promise<string>(res => { const r = new FileReader(); r.onload = () => res(r.result as string); r.readAsDataURL(f); });
+async function shrink(f: File) { const u = await readURL(f); return new Promise<string>(res => { const i = new Image(); i.onload = () => { const k = Math.min(1, 1000 / Math.max(i.width, i.height)), c = document.createElement('canvas'); c.width = i.width * k; c.height = i.height * k; c.getContext('2d')!.drawImage(i, 0, 0, c.width, c.height); res(c.toDataURL('image/jpeg', .85)); }; i.src = u; }); }
+async function upload(f: File, kind: string): Promise<string> {
+  if (sb) { const p = kind + '/' + Date.now() + '-' + f.name.replace(/[^\w.-]/g, '_'); const r = await sb.storage.from('media').upload(p, f, { upsert: true, contentType: f.type }); if (r.error) throw r.error; return sb.storage.from('media').getPublicUrl(p).data.publicUrl; }
+  if (f.type.startsWith('image/')) return shrink(f);
+  if (f.type.startsWith('video/')) return URL.createObjectURL(f);
+  return readURL(f);
+}
+
+/* ---------- admin dashboard (open with  #admin ) ---------- */
+const In = ({ v, on, ph, rtl, area }: any) => area ? <textarea className="in" rows={4} value={v || ''} dir={rtl ? 'rtl' : 'ltr'} placeholder={ph} onChange={e => on(e.target.value)}/> : <input className="in" value={v || ''} placeholder={ph} dir={rtl ? 'rtl' : 'ltr'} onChange={e => on(e.target.value)}/>;
+const Bf = ({ l, v, on, area }: any) => <div className="fld"><b>{l}</b><In area={area} v={v && v.en} ph="English" on={(x: string) => on({ ...v, en: x })}/><In area={area} v={v && v.ar} ph="العربية" rtl on={(x: string) => on({ ...v, ar: x })}/></div>;
+function Up({ label, accept, kind, on, say }: any) {
+  return <label className="btn">{label}<input type="file" hidden accept={accept} onChange={async e => { const f = e.target.files && e.target.files[0]; if (!f) return; say('Uploading…'); try { on(await upload(f, kind)); say('Uploaded. Press Save & publish to keep it.'); } catch (x: any) { say('Upload failed: ' + (x.message || x)); } }}/></label>;
+}
+function Admin({ done }: { done: () => void }) {
+  const [ses, setSes] = useState<any>(null), [rd, setRd] = useState(!sb);
+  const [em, setEm] = useState(''), [pw, setPw] = useState(''), [msg, setMsg] = useState('');
+  const [d, setD] = useState<any>(snap()), [tab, setTab] = useState('profile'), [cat, setCat] = useState('branding');
+  useEffect(() => { if (!sb) return; sb.auth.getSession().then((r: any) => { setSes(r.data.session); setRd(true); }); const s = sb.auth.onAuthStateChange((_: any, x: any) => setSes(x)); return () => s.data.subscription.unsubscribe(); }, []);
+  const set = (k: string, v: any) => setD((p: any) => ({ ...p, [k]: v }));
+  const items: Item[] = d.work[cat] || [];
+  const setItems = (a: Item[]) => set('work', { ...d.work, [cat]: a });
+  const upd = (i: number, p: any) => setItems(items.map((x, j) => j === i ? { ...x, ...p } : x));
+  const mv = (i: number, s: number) => { const a = [...items], j = i + s; if (j < 0 || j >= a.length) return; [a[i], a[j]] = [a[j], a[i]]; setItems(a); };
+  const pub = async () => { setMsg('Publishing…'); try { await save(d); setMsg('Published. Your site is updated.'); } catch (x: any) { setMsg('Save failed: ' + (x.message || x)); } };
+  if (!rd) return null;
+  if (sb && !ses) return <div className="adm"><div className="card" style={{ maxWidth: 380 }}><h2 className="px">ADMIN</h2><In v={em} on={setEm} ph="Email"/><input className="in" type="password" value={pw} placeholder="Password" onChange={e => setPw(e.target.value)}/><div className="row"><button className="btn" onClick={async () => { const r = await sb.auth.signInWithPassword({ email: em, password: pw }); setMsg(r.error ? r.error.message : ''); }}>Log in</button><button className="btn" onClick={done}>Close</button></div><small>{msg}</small></div></div>;
+  return <div className="adm" dir="ltr"><div className="card">
+    <div className="row"><h2 className="px" style={{ flex: 1, fontSize: 22 }}>ADMIN</h2><button className="btn" onClick={pub}>Save & publish</button><button className="btn" onClick={done}>Close</button>{sb && <button className="btn" onClick={() => sb.auth.signOut()}>Sign out</button>}</div>
+    {!sb && <small>Demo mode: changes are saved in this browser only. Add your Supabase URL and key to enable login and permanent storage.</small>}
+    <div className="row">{['profile', 'projects', 'contact', 'cv'].map(t => <button key={t} className="tb" style={{ background: tab === t ? '#fff' : undefined }} onClick={() => setTab(t)}>{t}</button>)}</div>
+    {tab === 'profile' && <><Bf l="Name" v={d.name} on={(v: any) => set('name', v)}/><Bf area l="Biography" v={d.about} on={(v: any) => set('about', v)}/><div className="row">{d.photo && <img src={d.photo} alt="" style={{ width: 72, height: 72, borderRadius: '50%', objectFit: 'cover' }}/>}<Up label="Change profile picture" accept="image/*" kind="photo" on={(u: string) => set('photo', u)} say={setMsg}/></div></>}
+    {tab === 'projects' && <><select className="in" value={cat} onChange={e => setCat(e.target.value)}>{Object.keys(C.work).map(k => <option key={k} value={k}>{LBL[k].en}</option>)}</select>
+      {items.map((it, i) => <div className="pj" key={i}>{it.video ? <video src={it.video} muted/> : <img src={it.img || art(i + cat.length * 2)} alt=""/>}<div style={{ display: 'grid', gap: 6 }}>
+        <In v={it.t.en} ph="Title (English)" on={(x: string) => upd(i, { t: { ...it.t, en: x } })}/><In v={it.t.ar} rtl ph="العنوان" on={(x: string) => upd(i, { t: { ...it.t, ar: x } })}/>
+        <div className="row"><Up label="Image" accept="image/*" kind="img" on={(u: string) => upd(i, { img: u, video: '' })} say={setMsg}/><Up label="Video" accept="video/*" kind="video" on={(u: string) => upd(i, { video: u })} say={setMsg}/><button className="tb" onClick={() => mv(i, -1)}>↑</button><button className="tb" onClick={() => mv(i, 1)}>↓</button><button className="tb" onClick={() => setItems(items.filter((_, j) => j !== i))}>Delete</button></div></div></div>)}
+      <button className="btn" onClick={() => setItems([...items, { t: { en: 'New project', ar: 'مشروع جديد' } }])}>+ Add project</button></>}
+    {tab === 'contact' && <>{Object.keys(d.social).map(k => <div className="fld" key={k}><b style={{ display: 'flex', gap: 8, alignItems: 'center' }}><SocIcon k={k} size={26}/>{k}</b><In v={d.social[k]} ph={k === 'whatsapp' ? '+966…' : k === 'email' ? 'you@mail.com' : 'https://…'} on={(v: string) => set('social', { ...d.social, [k]: v })}/></div>)}<div className="fld"><b>Phone / location</b><In v={d.phone} on={(v: string) => set('phone', v)}/></div></>}
+    {tab === 'cv' && <>{['en', 'ar'].map(l => <div className="row" key={l}><b style={{ width: 90 }}>{l === 'en' ? 'English CV' : 'Arabic CV'}</b><Up label={d.cvUrl[l] ? 'Replace PDF' : 'Upload PDF'} accept="application/pdf" kind="cv" on={(u: string) => set('cvUrl', { ...d.cvUrl, [l]: u })} say={setMsg}/>{d.cvUrl[l] && <><small>PDF attached</small><button className="tb" onClick={() => set('cvUrl', { ...d.cvUrl, [l]: '' })}>Remove</button></>}</div>)}</>}
+    <small>{msg}</small></div></div>;
+}
+
+function App() {
+  const [lang, setLang] = useState<Lang>('en');
+  const [mob, setMob] = useState(window.matchMedia('(max-width:760px)').matches);
+  useEffect(() => { const q = window.matchMedia('(max-width:760px)'); const f = () => setMob(q.matches); q.addEventListener('change', f); return () => q.removeEventListener('change', f); }, []);
+  useEffect(() => { document.documentElement.lang = lang; document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr'; }, [lang]);
+  const [, rr] = useState(0);
+  const [adm, setAdm] = useState(location.hash === '#admin');
+  useEffect(() => { load().then(() => rr(n => n + 1)); const h = () => setAdm(location.hash === '#admin'); addEventListener('hashchange', h); return () => removeEventListener('hashchange', h); }, []);
+  return <>{mob ? <Mobile lang={lang} setLang={setLang}/> : <Desktop lang={lang} setLang={setLang}/>}{adm && <Admin done={() => { location.hash = ''; rr(n => n + 1); }}/>}</>;
+}
+ReactDOM.createRoot(document.getElementById('root')!).render(<App/>);
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.24.7/babel.min.js"></script>
+<script>
+try{
+  var out=Babel.transform(document.getElementById('src').textContent,{presets:[['typescript',{isTSX:true,allExtensions:true}],'react'],filename:'app.tsx'}).code;
+  var s=document.createElement('script');s.textContent=out;document.body.appendChild(s);
+}catch(e){document.getElementById('root').textContent='Build error: '+e.message;}
+</script>
+</body></html>
